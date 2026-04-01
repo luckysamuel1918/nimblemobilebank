@@ -27,7 +27,7 @@ import {
 } from "firebase/firestore";
 import { db } from "@/config/firebase";
 import { useAuth } from "@/contexts/AuthContext";
-import emailjs from "@emailjs/browser";
+import { sendOtpEmail } from "@/config/emailjs";
 
 interface OtpVerificationModalProps {
   isOpen: boolean;
@@ -107,20 +107,20 @@ const OtpVerificationModal = ({
       );
 
       // send email
-      await emailjs.send(
-        "service_ddqz3a6",
-        "template_zsv0alp",
-        {
-          to_email: currentUser.email,
-          from_email: "support@westcoasttrusts.com",
-          otp_code: generatedOtp,
-          user_name:
-            currentUser.displayName ||
-            currentUser.email?.split("@")[0] ||
-            "User",
-        },
-        "VYfq3eW-NMpJkm35M"
-      );
+      await sendOtpEmail({
+        to_email: currentUser.email || '',
+        otp_code: generatedOtp,
+        customer_name:
+          currentUser.displayName ||
+          currentUser.email?.split("@")[0] ||
+          "User",
+        subject: "Your Verification Code - Westcoast Trust Bank",
+        expiry_minutes: "5",
+        verification_link: "",
+        year: new Date().getFullYear().toString(),
+        from_name: "Westcoast Trust Bank",
+        reply_to: "support@westcoasttrustbank.com",
+      });
 
       toast({
         title: "OTP Sent",

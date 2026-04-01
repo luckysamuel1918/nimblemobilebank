@@ -371,21 +371,16 @@ const UserDashboard = () => {
         <div className="max-w-6xl mx-auto p-4 lg:p-6">
           <DashboardHeader />
           
-          <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 items-start">
-            <div className="lg:col-span-3 space-y-6">
-              <BalanceCard />
-              <ActionButtons
-                onDomesticTransfer={handleDomesticTransfer}
-                onInternationalTransfer={handleInternationalTransfer}
-                onCheckDeposit={handleCheckDeposit}
-                onTransactionHistory={handleTransactionHistory}
-                disabled={false}
-              />
-            </div>
-            
-            <div className="lg:col-span-2">
-              <RecentTransactions />
-            </div>
+          <div className="space-y-6">
+            <BalanceCard />
+            <ActionButtons
+              onDomesticTransfer={handleDomesticTransfer}
+              onInternationalTransfer={handleInternationalTransfer}
+              onCheckDeposit={handleCheckDeposit}
+              onTransactionHistory={handleTransactionHistory}
+              disabled={false}
+            />
+            <RecentTransactions />
           </div>
         </div>
 

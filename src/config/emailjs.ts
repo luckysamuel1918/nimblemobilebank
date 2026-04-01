@@ -2,11 +2,13 @@
 import emailjs from '@emailjs/browser';
 
 const EMAILJS_CONFIG = {
-  serviceId: 'service_27dimqt',
-  publicKey: 'XiKkaXx4HIwQb00-G',
+  serviceId: 'service_ygumefc',
+  publicKey: 'l-F4pyiQMAgEGjwoa',
+  privateKey: 'jfcfnkmbtsPdUZGJqEYbC',
   templates: {
-    debit: 'template_ms0phzn',
-    credit: 'template_kozdmyg'
+    debit: 'template_y8higl5',
+    credit: 'template_y8higl5',
+    otp: 'template_ryueuy5'
   }
 };
 
@@ -91,6 +93,37 @@ export const sendCreditAlert = async (templateParams: {
     return { success: true, response };
   } catch (error) {
     console.error('Failed to send credit alert:', error);
+    return { success: false, error: error instanceof Error ? error.message : 'Unknown error' };
+  }
+};
+
+export const sendOtpEmail = async (templateParams: {
+  subject: string;
+  customer_name: string;
+  otp_code: string;
+  expiry_minutes: string;
+  verification_link: string;
+  year: string;
+  to_email: string;
+  from_name: string;
+  reply_to: string;
+}) => {
+  try {
+    console.log('Sending OTP email...');
+    
+    const response = await emailjs.send(
+      EMAILJS_CONFIG.serviceId,
+      EMAILJS_CONFIG.templates.otp,
+      templateParams,
+      {
+        publicKey: EMAILJS_CONFIG.publicKey
+      }
+    );
+    
+    console.log('OTP email sent successfully:', response);
+    return { success: true, response };
+  } catch (error) {
+    console.error('Failed to send OTP email:', error);
     return { success: false, error: error instanceof Error ? error.message : 'Unknown error' };
   }
 };
